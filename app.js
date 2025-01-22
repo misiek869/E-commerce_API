@@ -6,6 +6,12 @@ const app = express()
 // database
 const connectDB = require('./db/connect')
 
+app.use(express.json())
+
+app.get('/', (req, res) => {
+	res.send('e-commertce')
+})
+
 const port = process.env.PORT || 5000
 const start = async () => {
 	try {
