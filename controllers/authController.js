@@ -3,9 +3,11 @@ const User = require('../models/User')
 const { StatusCodes } = require('http-status-codes')
 
 const register = async (req, res) => {
-	// const user = await User.create({ ...req.body })
-	// res.status(StatusCodes.CREATED).json({ user: { name: user.name } })
-	res.send('register')
+	const user = await User.create({ ...req.body })
+	res
+		.status(StatusCodes.CREATED)
+		.json({ user: { name: user.name, email: user.email } })
+	res.send(user)
 }
 
 const login = async (req, res) => {
@@ -22,7 +24,7 @@ const login = async (req, res) => {
 	// 	// throw new UnauthenticatedError('Invalid Credentials')
 	// }
 
-	res.send('register')
+	res.send('login')
 }
 
 const logout = async (req, res) => {
