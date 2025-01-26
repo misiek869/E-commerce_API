@@ -13,9 +13,9 @@ router.get('/', getAllUsers)
 
 router.get('/showMe', showCurrentUser)
 
-router.post('/updateUser', updateUser)
+router.patch('/updateUser', updateUser)
 
-router.post('/updateUserPassword', updateUserPassword)
+router.patch('/updateUserPassword', updateUserPassword)
 
 // route with id have to be at the end
 router.get('/:id', getSingleUser)
