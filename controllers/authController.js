@@ -2,7 +2,7 @@ const User = require('../models/User')
 const { StatusCodes } = require('http-status-codes')
 const CustomError = require('../errors')
 const { addCookiesToResponse } = require('../utils')
-const { BadRequestError } = require('../errors/bad-request')
+const { BadRequestError, UnauthenticatedError } = require('../errors')
 
 const register = async (req, res) => {
 	const { email, name, password } = req.body
