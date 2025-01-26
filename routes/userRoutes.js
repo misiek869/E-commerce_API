@@ -11,4 +11,12 @@ const {
 
 router.get('/', getAllUsers)
 
+router.get('/showMe', showCurrentUser)
+
+router.post('/updateUser', updateUser)
+
+router.post('/updateUserPassword', updateUserPassword)
+
+router.get('/:id', getSingleUser)
+
 module.exports = router
