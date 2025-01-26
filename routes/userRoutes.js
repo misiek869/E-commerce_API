@@ -10,7 +10,7 @@ const {
 	updateUserPassword,
 } = require('../controllers/userController')
 
-router.get('/', (authenticateUser, getAllUsers))
+router.get('/', authenticateUser, getAllUsers)
 
 router.get('/showMe', showCurrentUser)
 
@@ -19,6 +19,6 @@ router.patch('/updateUser', updateUser)
 router.patch('/updateUserPassword', updateUserPassword)
 
 // route with id have to be at the end
-router.get('/:id', (authenticateUser, getSingleUser))
+router.get('/:id', authenticateUser, getSingleUser)
 
 module.exports = router

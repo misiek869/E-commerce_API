@@ -4,7 +4,12 @@ const { isTokenValid } = require('../utils')
 const authenticateUser = async (req, res, next) => {
 	const token = req.signedCookies.token
 
-	console.log('token present')
+	if (!token) {
+		console.log('no token')
+	} else {
+		console.log('token present')
+	}
+
 	next()
 }
 
