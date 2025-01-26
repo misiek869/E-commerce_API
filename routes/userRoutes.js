@@ -17,6 +17,7 @@ router.post('/updateUser', updateUser)
 
 router.post('/updateUserPassword', updateUserPassword)
 
+// route with id have to be at the end
 router.get('/:id', getSingleUser)
 
 module.exports = router
