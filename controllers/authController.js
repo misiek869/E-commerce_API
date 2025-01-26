@@ -2,6 +2,7 @@ const User = require('../models/User')
 const { StatusCodes } = require('http-status-codes')
 const CustomError = require('../errors')
 const { addCookiesToResponse } = require('../utils')
+const { BadRequestError } = require('../errors/bad-request')
 
 const register = async (req, res) => {
 	const { email, name, password } = req.body
@@ -26,20 +27,23 @@ const register = async (req, res) => {
 }
 
 const login = async (req, res) => {
-	// const { email, password } = req.body
-	// if (!email || !password) {
-	// 	// throw new BadRequestError('Please provide email and password')
-	// }
-	// const user = await User.findOne({ email })
-	// if (!user) {
-	// 	// throw new UnauthenticatedError('Invalid Credentials')
-	// }
-	// const isPasswordCorrect = await user.comparePassword(password)
-	// if (!isPasswordCorrect) {
-	// 	// throw new UnauthenticatedError('Invalid Credentials')
-	// }
+	const { email, password } = req.body
 
-	res.send('login')
+	if (!email || !password) {
+		throw new BadRequestError('Please provide email and password')
+	}
+	const user = await User.findOne({ email })
+	if (!user) {
+		// throw new UnauthenticatedError('Invalid Credentials')
+		console.log('no user')
+	}
+	const isPasswordCorrect = await user.comparePassword(password)
+	if (!isPasswordCorrect) {
+		// throw new UnauthenticatedError('Invalid Credentials')
+	}
+
+	// res.status(StatusCodes.OK).json({ user: { name: user.name }, token })
+	res.send(user)
 }
 
 const logout = async (req, res) => {
