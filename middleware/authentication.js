@@ -5,9 +5,14 @@ const authenticateUser = async (req, res, next) => {
 	const token = req.signedCookies.token
 
 	if (!token) {
-		console.log('no token')
-	} else {
-		console.log('token present')
+		throw new CustomErr.UnauthenticatedError('Authentication Invalid')
+	}
+
+	try {
+		const { name, userId, role } = isTokenValid({ token })
+		req.user = { name, userId, role }
+	} catch (error) {
+		throw new CustomErr.UnauthenticatedError('Authentication Invalid')
 	}
 
 	next()
