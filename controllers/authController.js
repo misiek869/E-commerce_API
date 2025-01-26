@@ -1,6 +1,6 @@
 const User = require('../models/User')
 const { StatusCodes } = require('http-status-codes')
-const CustomError = require('../errors')
+
 const { addCookiesToResponse } = require('../utils')
 const { BadRequestError, UnauthenticatedError } = require('../errors')
 
@@ -10,7 +10,7 @@ const register = async (req, res) => {
 	const emailAlreadyExists = await User.findOne({ email })
 
 	if (emailAlreadyExists) {
-		throw new CustomError.BadRequestError('Email already exists')
+		throw new BadRequestError('Email already exists')
 	}
 
 	// find first registered user and set as admin
@@ -33,23 +33,27 @@ const login = async (req, res) => {
 		throw new BadRequestError('Please provide email and password')
 	}
 	const user = await User.findOne({ email })
+	const tokenUser = { name: user.name, userId: user._id, role: user.role }
+	addCookiesToResponse({ res, user: tokenUser })
+
 	if (!user) {
-		// throw new UnauthenticatedError('Invalid Credentials')
-		console.log('no user')
+		throw new UnauthenticatedError('Invalid Credentials')
 	}
 	const isPasswordCorrect = await user.comparePassword(password)
+
 	if (!isPasswordCorrect) {
-		// throw new UnauthenticatedError('Invalid Credentials')
+		throw new UnauthenticatedError('Invalid Credentials (Password)')
 	}
 
-	// res.status(StatusCodes.OK).json({ user: { name: user.name }, token })
-	res.send(user)
+	res.status(StatusCodes.OK).json({ user: tokenUser })
 }
 
 const logout = async (req, res) => {
-	// const user = await User.create({ ...req.body })
-	// res.status(StatusCodes.CREATED).json({ user: { name: user.name } })
-	res.send('logout')
+	res.cookie('token', 'logout', {
+		httpOnly: true,
+		expires: new Date(Date.now()),
+	})
+	res.status(StatusCodes.OK).json({ msg: 'user logged out!' })
 }
 
 module.exports = {
