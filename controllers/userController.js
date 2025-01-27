@@ -6,7 +6,11 @@ const {
 	UnauthenticatedError,
 } = require('../errors')
 
-const { createTokenUser, addCookiesToResponse } = require('../utils')
+const {
+	createTokenUser,
+	addCookiesToResponse,
+	checkPermissions,
+} = require('../utils')
 
 const getAllUsers = async (req, res) => {
 	const users = await User.find({ role: 'user' }).select('-password')
@@ -26,6 +30,7 @@ const getSingleUser = async (req, res) => {
 		throw new NotFoundError(`No user with id ${userId}`)
 	}
 
+	checkPermissions(req.user, user._id)
 	res.status(StatusCodes.OK).json({ user })
 }
 
