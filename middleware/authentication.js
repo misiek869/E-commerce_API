@@ -1,5 +1,6 @@
 const CustomErr = require('../errors')
 const { isTokenValid } = require('../utils')
+const { UnauthorizedError } = require('../errors')
 
 const authenticateUser = async (req, res, next) => {
 	const token = req.signedCookies.token
@@ -18,9 +19,13 @@ const authenticateUser = async (req, res, next) => {
 	next()
 }
 
-const authorizePermissions = (req, res, next) => {
-	console.log('admin route')
-	next()
+const authorizePermissions = (...rest) => {
+	return (req, res, next) => {
+		if (!rest.includes(req.user.role)) {
+			throw new UnauthorizedError(`You can't access this route`)
+		}
+		next()
+	}
 }
 
 module.exports = {
