@@ -30,7 +30,9 @@ const updateUser = async (req, res) => {
 	res.send('update user')
 }
 const updateUserPassword = async (req, res) => {
-	res.send('update password')
+	const { password } = req.body
+	console.log(password)
+	// const user = await User.findOne({ email })
 }
 
 module.exports = {
