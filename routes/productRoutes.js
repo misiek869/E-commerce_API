@@ -16,9 +16,9 @@ const {
 
 router.get('/', getAllProducts)
 router.get('/:id', getSingleProduct)
-router.post('/', createProduct)
-router.delete('/:id', deleteProduct)
-router.patch('/:id', updateProduct)
-router.post('/', uploadImage)
+router.post('/', authorizePermissions('admin'), createProduct)
+router.delete('/:id', authorizePermissions('admin'), deleteProduct)
+router.patch('/:id', authorizePermissions('admin'), updateProduct)
+router.post('/', authorizePermissions('admin'), uploadImage)
 
 module.exports = router
