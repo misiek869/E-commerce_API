@@ -11,7 +11,6 @@ const {
 	addCookiesToResponse,
 	checkPermissions,
 } = require('../utils')
-const { getAllProducts, getSingleProduct } = require('./productController')
 
 const createReview = async (req, res) => {
 	req.body.user = req.user.userId
