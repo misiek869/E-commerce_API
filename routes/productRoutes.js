@@ -14,8 +14,11 @@ const {
 	uploadImage,
 } = require('../controllers/productController')
 
-router.get('/products', getAllProducts)
-router.get('/products/:id', getSingleProduct)
-router.post('/create', getSingleProduct)
+router.get('/', getAllProducts)
+router.get('/:id', getSingleProduct)
+router.post('/', createProduct)
+router.delete('/:id', deleteProduct)
+router.patch('/:id', updateProduct)
+router.post('/', uploadImage)
 
 module.exports = router
