@@ -11,6 +11,7 @@ const {
 	addCookiesToResponse,
 	checkPermissions,
 } = require('../utils')
+const { getAllProducts, getSingleProduct } = require('./productController')
 
 const createReview = async (req, res) => {
 	req.body.user = req.user.userId
@@ -37,4 +38,12 @@ const updateReview = async (req, res) => {
 }
 const deleteReview = async (req, res) => {
 	res.send('delete')
+}
+
+module.exports = {
+	createReview,
+	getAllReviews,
+	getSingleReview,
+	updateReview,
+	deleteReview,
 }
