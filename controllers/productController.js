@@ -5,7 +5,7 @@ const {
 	BadRequestError,
 	UnauthenticatedError,
 } = require('../errors')
-
+const path = require('path')
 const {
 	createTokenUser,
 	addCookiesToResponse,
@@ -63,7 +63,27 @@ const deleteProduct = async (req, res) => {
 }
 
 const uploadImage = async (req, res) => {
-	res.send('upload image')
+	if (!req.files) {
+		throw new BadRequestError('No file uploaded')
+	}
+
+	const image = req.files.image
+
+	if (!image.mimetype.startsWith('image')) {
+		throw new BadRequestError('You must upload image')
+	}
+
+	const maxSize = 1024 * 1024
+
+	if (image.size > maxSize) {
+		throw new BadRequestError('Image size is to big. Max size is 1MB')
+	}
+
+	const imagePath = path.join(__dirname, '../public/uploads/' + `${image.name}`)
+
+	await image.mv(imagePath)
+
+	res.status(StatusCodes.OK).json({ image: `/uploads/${image.name}` })
 }
 
 module.exports = {
