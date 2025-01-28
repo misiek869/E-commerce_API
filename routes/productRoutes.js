@@ -17,3 +17,5 @@ const {
 router.get('/products', getAllProducts)
 router.get('/products/:id', getSingleProduct)
 router.post('/create', getSingleProduct)
+
+module.exports = router
