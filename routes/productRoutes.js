@@ -20,7 +20,11 @@ router.post(
 	createProduct
 )
 router.get('/', getAllProducts)
-router.post('/', [authenticateUser, authorizePermissions('admin')], uploadImage)
+router.post(
+	'/uploadImage',
+	[authenticateUser, authorizePermissions('admin')],
+	uploadImage
+)
 router.get('/:id', getSingleProduct)
 router.patch(
 	'/:id',
