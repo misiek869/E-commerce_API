@@ -13,24 +13,12 @@ const {
 	deleteReview,
 } = require('../controllers/reviewController')
 
-router.post(
-	'/',
-	[authenticateUser, authorizePermissions('admin')],
-	createReview
-)
+router.post('/', [authenticateUser], createReview)
 
 router.get('/', getAllReviews)
 router.get('/:id', getSingleReview)
-router.patch(
-	'/:id',
-	[authenticateUser, authorizePermissions('admin')],
-	updateReview
-)
+router.patch('/:id', [authenticateUser], updateReview)
 
-router.delete(
-	'/:id',
-	[authenticateUser, authorizePermissions('admin')],
-	deleteReview
-)
+router.delete('/:id', [authenticateUser], deleteReview)
 
 module.exports = router
