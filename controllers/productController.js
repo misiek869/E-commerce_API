@@ -30,3 +30,12 @@ const deleteProduct = async (req, res) => {
 const uploadImage = async (req, res) => {
 	res.send('upload image')
 }
+
+module.exports = {
+	createProduct,
+	getAllProducts,
+	getSingleProduct,
+	updateProduct,
+	deleteProduct,
+	uploadImage,
+}
