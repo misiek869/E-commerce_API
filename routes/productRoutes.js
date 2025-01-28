@@ -14,11 +14,23 @@ const {
 	uploadImage,
 } = require('../controllers/productController')
 
+router.post(
+	'/',
+	[authenticateUser, authorizePermissions('admin')],
+	createProduct
+)
 router.get('/', getAllProducts)
+router.post('/', [authenticateUser, authorizePermissions('admin')], uploadImage)
 router.get('/:id', getSingleProduct)
-router.post('/', authorizePermissions('admin'), createProduct)
-router.delete('/:id', authorizePermissions('admin'), deleteProduct)
-router.patch('/:id', authorizePermissions('admin'), updateProduct)
-router.post('/', authorizePermissions('admin'), uploadImage)
+router.patch(
+	'/:id',
+	[authenticateUser, authorizePermissions('admin')],
+	updateProduct
+)
+router.delete(
+	'/:id',
+	[authenticateUser, authorizePermissions('admin')],
+	deleteProduct
+)
 
 module.exports = router
