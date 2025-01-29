@@ -25,7 +25,7 @@ const getAllProducts = async (req, res) => {
 
 const getSingleProduct = async (req, res) => {
 	const { id: productID } = req.params
-	const product = await Product.findOne({ _id: productID })
+	const product = await Product.findOne({ _id: productID }).populate('reviews')
 
 	if (!product) {
 		throw new NotFoundError(`There is no product with id: ${productID}`)
