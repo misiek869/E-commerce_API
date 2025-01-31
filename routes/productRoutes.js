@@ -39,6 +39,6 @@ router.delete(
 	deleteProduct
 )
 
-router.get(':id/reviews', getSingleProductReviews)
+router.get('/:id/reviews', getSingleProductReviews)
 
 module.exports = router
