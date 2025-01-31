@@ -17,9 +17,9 @@ router.post('/', [authenticateUser], createOrder)
 
 router.get('/', [authenticateUser, authorizePermissions('admin')], getAllOrders)
 
-router.get('/:id', [authenticateUser], getSingleOrder)
+router.get('/myOrders', [authenticateUser], getCurrentUserOrder)
 
-router.get('/:id', [authenticateUser], getCurrentUserOrder)
+router.get('/:id', [authenticateUser], getSingleOrder)
 
 router.patch('/:id', [authenticateUser], updateOrder)
 
