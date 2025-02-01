@@ -14,11 +14,19 @@ const {
 } = require('../utils')
 
 const getAllOrders = async (req, res) => {
-	res.send('all ordrs')
+	const orders = await Order.find({})
+	res.status(StatusCodes.OK).json({ orders })
 }
 
 const getSingleOrder = async (req, res) => {
-	res.send('get single order')
+	const { id: orderId } = req.params
+
+	const order = await Order.findOne({ _id: orderId })
+
+	if (!order) {
+		throw new NotFoundError(`There is no product with id: ${orderId}`)
+	}
+	res.status(StatusCodes.OK).json({ order })
 }
 
 const getCurrentUserOrder = async (req, res) => {
