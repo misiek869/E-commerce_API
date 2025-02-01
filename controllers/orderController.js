@@ -15,7 +15,7 @@ const {
 
 const getAllOrders = async (req, res) => {
 	const orders = await Order.find({})
-	res.status(StatusCodes.OK).json({ orders })
+	res.status(StatusCodes.OK).json({ orders, count: order.length })
 }
 
 const getSingleOrder = async (req, res) => {
@@ -26,11 +26,17 @@ const getSingleOrder = async (req, res) => {
 	if (!order) {
 		throw new NotFoundError(`There is no product with id: ${orderId}`)
 	}
+
+	checkPermissions(req.user, order.user)
+
 	res.status(StatusCodes.OK).json({ order })
 }
 
 const getCurrentUserOrder = async (req, res) => {
-	res.send('getCurrentUserOrder')
+	const userOrders = await Order.find({ user: req.user.userId }).populate({
+		path: 'user',
+	})
+	res.status(StatusCodes.OK).json({ userOrders, count: order.length })
 }
 
 const fakeStripeApi = async ({ amount, currency }) => {
