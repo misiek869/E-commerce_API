@@ -15,7 +15,7 @@ const {
 
 const getAllOrders = async (req, res) => {
 	const orders = await Order.find({})
-	res.status(StatusCodes.OK).json({ orders, count: order.length })
+	res.status(StatusCodes.OK).json({ orders, count: orders.length })
 }
 
 const getSingleOrder = async (req, res) => {
@@ -33,10 +33,8 @@ const getSingleOrder = async (req, res) => {
 }
 
 const getCurrentUserOrder = async (req, res) => {
-	const userOrders = await Order.find({ user: req.user.userId }).populate({
-		path: 'user',
-	})
-	res.status(StatusCodes.OK).json({ userOrders, count: order.length })
+	const userOrders = await Order.find({ user: req.user.userId })
+	res.status(StatusCodes.OK).json({ userOrders, count: userOrders.length })
 }
 
 const fakeStripeApi = async ({ amount, currency }) => {
@@ -105,7 +103,18 @@ const createOrder = async (req, res) => {
 }
 
 const updateOrder = async (req, res) => {
-	res.send('update order')
+	const { id: orderId } = req.params
+	const order = await Order.findOne({ _id: orderId })
+	if (!order) {
+		throw new NotFoundError(`There is no product with id: ${orderId}`)
+	}
+	checkPermissions(req.user, order.user)
+
+	order.paymentIntention = paymentIntention
+	order.status = 'pending'
+
+	await order.save()
+	res.status(StatusCodes.OK).json({ order })
 }
 
 module.exports = {
